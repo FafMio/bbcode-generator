@@ -26,7 +26,6 @@ class MainController extends CoreController {
             $arguments['data_url'] = [
                 "search" => $search,
                 "type" => $type,
-                "type" => $type,
                 "page" => $page,
             ];
             $arguments['list'] = $req->getData()->results;
@@ -41,6 +40,9 @@ class MainController extends CoreController {
         $this->show('pages/search', $arguments);
     }
 
+    /**
+     * @throws Exception
+     */
     public function generate_tv($arguments = [])
     {
         if(isset($arguments['id'])) {
@@ -79,6 +81,7 @@ class MainController extends CoreController {
                 "run_time" => $cs->timeToString($data->episode_run_time[0] ?? "0"),
                 "type" => "tv"
             ];
+            $arguments['images'] = $hs->images($id, "tv")->getData();
 
             if(isset($_POST['quality'])) {
                 $_POST['txts'] = $cs->parseRepeater($_POST, "txt");
@@ -86,11 +89,16 @@ class MainController extends CoreController {
 
                 $arguments['rendered'] = json_decode(json_encode($_POST), false);
             }
+
+            dump($arguments);
         }
 
         $this->show('pages/generate', $arguments);
     }
 
+    /**
+     * @throws Exception
+     */
     public function generate_movie($arguments = [])
     {
         if(isset($arguments['id'])) {
@@ -133,6 +141,7 @@ class MainController extends CoreController {
                 "type" => "movie",
                 "directors" => $cs->getCrew($crew, "Director"),
             ];
+            $arguments['images'] = $hs->images($id, "movie")->getData();
 
             if(isset($_POST['quality'])) {
                 $_POST['txts'] = $cs->parseRepeater($_POST, "txt");

@@ -5,6 +5,12 @@ class RatingService
 
     public function __construct() {}
 
+    /**
+     * Convert number 0-10 to stars
+     *
+     * @param $count
+     * @return string
+     */
     public function getStars($count) :string
     {
         $note = "00";

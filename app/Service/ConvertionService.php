@@ -7,6 +7,13 @@ class ConvertionService
     {
     }
 
+    /**
+     * Convert seconds to time
+     *
+     * @param $time
+     * @param $format
+     * @return string
+     */
     public function timeToString($time, $format = '%02dh %02dmin'): string
     {
         if ($time < 1) {
@@ -17,6 +24,13 @@ class ConvertionService
         return sprintf($format, $hours, $minutes);
     }
 
+    /**
+     * Convert repeater form (audio/subtitles) to array
+     *
+     * @param array $array
+     * @param string $field_name
+     * @return array|int
+     */
     public function parseRepeater(array $array, string $field_name): array|int
     {
         $return_array = [];
@@ -32,7 +46,14 @@ class ConvertionService
         return $return_array;
     }
 
-    public function getCrew(array $array, string $job = "director")
+    /**
+     * Get all crew by jobs from a list
+     *
+     * @param array $array
+     * @param string $job
+     * @return array
+     */
+    public function getCrew(array $array, string $job = "director"): array
     {
         $result = [];
 

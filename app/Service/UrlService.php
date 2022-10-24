@@ -4,7 +4,15 @@ class UrlService
 {
     public function __construct() {}
 
-    public function replaceUrlParameters($url = '', $newParams = array()){
+    /**
+     * Editing the URL parameters for forms
+     *
+     * @param string $url
+     * @param array $newParams
+     * @return string
+     */
+    public function replaceUrlParameters(string $url = '', array $newParams = []): string
+    {
         if($url){
             $urlArray = parse_url($url);
             $queryString = $urlArray['query'];

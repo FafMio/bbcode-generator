@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <?php require_once __DIR__ . './../global/head.tpl.php' ?>
-    <title>RapidPlace - Accueil</title>
+    <title>Vagerof Prez - Accueil</title>
 </head>
 <body>
 <?php require_once __DIR__ . './../global/nav.tpl.php' ?>

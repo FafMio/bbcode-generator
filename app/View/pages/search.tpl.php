@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <?php require_once __DIR__ . './../global/head.tpl.php' ?>
-    <title>RapidPlace - Recherche de "<?= $viewData['data_url']['search'] ?? "" ?>"</title>
+    <title>Vagerof Prez - Recherche de "<?= $viewData['data_url']['search'] ?? "" ?>"</title>
 </head>
 <body>
 <?php require_once __DIR__ . './../global/nav.tpl.php' ?>

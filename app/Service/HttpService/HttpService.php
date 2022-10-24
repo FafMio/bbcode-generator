@@ -1,5 +1,10 @@
 <?php
 
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+
 class HttpService
 {
 
@@ -34,6 +39,18 @@ class HttpService
         }
     }
 
+    /**
+     * Search query
+     *
+     * @param string $toSearch
+     * @param string $type
+     * @param int|string $page
+     * @return HttpResponse
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function search(string $toSearch, string $type = "multi", int|string $page = 1): HttpResponse
     {
         $response = new HttpResponse();
@@ -47,6 +64,17 @@ class HttpService
         return $this->fillResponse($req);
     }
 
+    /**
+     * Find details query
+     *
+     * @param string $id
+     * @param string $type
+     * @return HttpResponse
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function find(string $id, string $type = "multi"): HttpResponse
     {
         $response = new HttpResponse();
@@ -60,6 +88,17 @@ class HttpService
         return $this->fillResponse($req);
     }
 
+    /**
+     * Find credits (crew/acting)
+     *
+     * @param string $id
+     * @param string $type
+     * @return HttpResponse
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
     public function credits(string $id, string $type = "tv"): HttpResponse
     {
         $response = new HttpResponse();
@@ -73,16 +112,40 @@ class HttpService
         return $this->fillResponse($req);
     }
 
+    /**
+     * Retrieve all images stored in TMDB
+     *
+     * @param string $id
+     * @param string $type
+     * @return HttpResponse
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    public function images(string $id, string $type = "tv"): HttpResponse
+    {
+        $response = new HttpResponse();
+
+        $req = $this->client->request(
+            'GET',
+            self::API_URL . "{$type}/{$id}/images?api_key={$this->api_key}",
+            []
+        );
+
+        return $this->fillResponse($req);
+    }
+
 
     /**
      * Create an HttpResponse and fill it with all the data collected on the HttpClient Request.
      *
      * @param \Symfony\Contracts\HttpClient\ResponseInterface $request
      * @return HttpResponse
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function fillResponse(\Symfony\Contracts\HttpClient\ResponseInterface $request): HttpResponse
     {

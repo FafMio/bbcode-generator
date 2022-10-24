@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php use voku\helper\HtmlMin;
+    <?php
+
+    use voku\helper\HtmlMin;
     use WyriHaximus\HtmlCompress\Factory;
 
     require_once __DIR__ . './../global/head.tpl.php' ?>
-    <title>RapidPlace - <?= $viewData['tv']->name ?></title>
+    <title>Vagerof Prez - <?= $viewData['tv']->name ?></title>
 </head>
 <body>
 <?php require_once __DIR__ . './../global/nav.tpl.php' ?>
@@ -22,8 +24,8 @@
             <div class="card border rounded border-dark">
                 <div class="card-body">
                     <div class="row align-items-center">
-                        <div class="col-md-7 col-12">
-                            <div class="display-4 font-weight-lighttext-white"><?= $viewData['tv']->name ?></div>
+                        <div class="col-md-8 col-12 d-flex flex-column justify-content-">
+                            <div class="display-4 font-weight-light align-self-start"><?= $viewData['tv']->name ?></div>
                             <div class="mb-4">
                                 <?php if (isset($viewData['rendered']->other_season)) echo '<span class="badge badge-pill bg-danger me-1">' . $viewData['rendered']->other_season . '</span>'; ?>
                                 <?php if (isset($viewData['rendered']->other_episode)) echo '<span class="badge badge-pill bg-danger me-1">' . $viewData['rendered']->other_episode . '</span>'; ?>
@@ -31,29 +33,32 @@
                             </div>
 
                             <div class="text-justify mb-4">
-                                <font size="2" color="#999999"><?= $viewData['tv']->overview ?></font>
+                                <span style="font-size: small; color: #999999; "><?= $viewData['tv']->overview ?></span>
                             </div>
 
                             <div class="row justify-content-center text-center mb-4">
                                 <?php
                                 foreach ($viewData['generator']['casts'] as $perso)
-                                    echo '<div class="col-6 col-sm-3 mb-3 px-2"><img src="https://image.tmdb.org/t/p/w154' . $perso['profile_path'] . '" alt="' . $perso['original_name'] . '" class="rounded img-fluid"></div>';
+                                    echo '<div class="col-6 col-sm-3 mb-3 px-2"><img src="https://image.tmdb.org/t/p/w500' . $perso['profile_path'] . '" alt="' . $perso['original_name'] . '" class="rounded img-fluid"></div>';
                                 ?>
                             </div>
 
-                            <font size="4"
-                                  class="d-flex align-items-center justify-content-center p-1 px-2 mb-3 bg-light border-dark rounded">
+                            <div class="d-flex align-items-center justify-content-center p-1 px-2 mb-3 bg-light border-dark rounded">
                                 <?php if (isset($viewData['rendered']->quality)) echo '<span class="badge bg-info px-3">' . $viewData['rendered']->quality . '</span>'; ?>
                                 <span class="badge bg-success px-3 mx-1">x264</span>
                                 <img class="mx-auto d-none d-sm-inline-block"
                                      src="<?= $viewData['generator']['rating']['image'] ?>"
                                      alt="<?= $viewData['generator']['rating']['note'] ?>">
                                 <span class="alert alert-dark d-none d-sm-inline-block h5 py-2 px-3 mb-0"><?= $viewData['generator']['release']->format("Y") ?></span>
-                            </font>
+                            </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <img src="https://image.tmdb.org/t/p/w500<?= $viewData['tv']->poster_path ?>" alt=""
-                                 class="img-fluid rounded w-100">
+                                 class="img-fluid rounded w-10">
+                            <button type="button" class="btn btn-outline-dark w-100 mt-3" data-bs-toggle="modal"
+                                    data-bs-target="#posters">
+                                Afficher tous les posters disponibles
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -427,7 +432,7 @@
                 ?>
             </div>
             <?php
-                if(isset($viewData['rendered'])) {
+            if (isset($viewData['rendered'])) {
                 ?>
                 <div class="col-12 mt-3">
                     <textarea class="form-control copy-code" value=<?= $compressedHtml ?>></textarea>
@@ -437,6 +442,7 @@
     </form>
 </section>
 
+
 <!-- Zone de rendu visuel (à supprimer ?)
 <section class="my-3 container" id="container_generated_view">
     <div class="card bg-light my-3">
@@ -445,6 +451,46 @@
         </div>
     </div>
 </section>-->
+
+<div class="modal fade" id="posters" tabindex="-1" aria-labelledby="postersLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdrop">Liste des posters disponibles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="posters_container">
+                    <?php
+                    $i = 0;
+                    foreach ($viewData['images']->posters as $img) {
+                        ?>
+
+                        <div class="col-3 p-2">
+                            <img src="https://image.tmdb.org/t/p/w500<?= $img->file_path ?>"
+                                 alt="<?= $img->iso_639_1 ?>" class="img-fluid"
+                                 style="object-fit: cover; height: 100%; width: 100%;">
+                        </div>
+                    <?php
+                        $i++;
+                        if($i == 24) {
+                            sleep(1);
+                            $i = 0;
+                        }
+                    }
+                    ?>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php require_once __DIR__ . './../global/footer.tpl.php' ?>
 </body>

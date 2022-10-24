@@ -7,6 +7,13 @@ class PaginationService
     {
     }
 
+    /**
+     * Paginate from array
+     *
+     * @param int $currentPage
+     * @param int $totalPages
+     * @return array
+     */
     public function paginate(int $currentPage, int $totalPages): array
     {
         $return = [];

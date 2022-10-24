@@ -4,9 +4,9 @@ class HttpResponse implements HttpResponseInterface
 {
     private int $code;
     private string $content;
-    private $data;
-    private $header;
-    private $info;
+    private mixed $data;
+    private mixed $header;
+    private mixed $info;
 
     private bool $error = false;
     private ?string $errorMessage = "";
@@ -46,7 +46,7 @@ class HttpResponse implements HttpResponseInterface
     /**
      * @return mixed
      */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }
@@ -62,7 +62,7 @@ class HttpResponse implements HttpResponseInterface
     /**
      * @return mixed
      */
-    public function getHeader()
+    public function getHeader(): mixed
     {
         return $this->header;
     }
@@ -78,17 +78,17 @@ class HttpResponse implements HttpResponseInterface
     /**
      * @return mixed
      */
-    public function getInfo()
+    public function getInfo(): mixed
     {
         return $this->info;
     }
 
     /**
-     * @param mixed $info
+     * @param mixed $infos
      */
-    public function setInfo($info): void
+    public function setInfo($infos): void
     {
-        $this->info = $info;
+        $this->info = $infos;
     }
 
     /**

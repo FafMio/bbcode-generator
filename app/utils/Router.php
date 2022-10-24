@@ -3,6 +3,9 @@
 class Router {
     protected AltoRouter $router;
 
+    /**
+     * @throws Exception
+     */
     public function __construct() {
         $this->router = new AltoRouter();
 
@@ -55,35 +58,18 @@ class Router {
     /**
      * Get the value of router
      */ 
-    public function get() { return $this->router; }
+    public function get(): AltoRouter
+    { return $this->router; }
 
     /**
      * Set the value of router
      *
+     * @param $router
      * @return  self
-     */ 
-    public function set($router) {
+     */
+    public function set($router): static
+    {
         $this->router = $router;
         return $this;
     }
 }
-
-
-
-
-// $router = new AltoRouter();
-// $router->setBasePath($_SERVER['BASE_URI']);
-
-// //! Root Home
-// $router->map(
-//     'GET',
-//     '/',
-//     [
-//         'controller' => 'MainController',
-//         'method' => 'home',
-//     ],
-//     'main-home'
-// );
-
-
-// $match = $router->match();
