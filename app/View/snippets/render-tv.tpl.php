@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="col-lg-5 px-lg-5">
-                <img src="https://image.tmdb.org/t/p/w500<?= $viewData['tv']->poster_path ?>"
+                <img src="<?= $viewData['rendered']->cover_url ?>"
                      alt="" class="img-fluid rounded w-100">
             </div>
         </div>

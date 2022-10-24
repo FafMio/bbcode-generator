@@ -2,11 +2,11 @@
 <html lang="fr">
 <head>
     <?php
-
     use voku\helper\HtmlMin;
     use WyriHaximus\HtmlCompress\Factory;
 
-    require_once __DIR__ . './../global/head.tpl.php' ?>
+    require_once __DIR__ . './../global/head.tpl.php'
+    ?>
     <title>Vagerof Prez - <?= $viewData['tv']->name ?></title>
 </head>
 <body>
@@ -25,17 +25,21 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-md-8 col-12 d-flex flex-column justify-content-">
+                            <!-- Nom de la série/film -->
                             <div class="display-4 font-weight-light align-self-start"><?= $viewData['tv']->name ?></div>
+                            <!-- Information série (Saison, Episode, ...) + Catégories -->
                             <div class="mb-4">
                                 <?php if (isset($viewData['rendered']->other_season)) echo '<span class="badge badge-pill bg-danger me-1">' . $viewData['rendered']->other_season . '</span>'; ?>
                                 <?php if (isset($viewData['rendered']->other_episode)) echo '<span class="badge badge-pill bg-danger me-1">' . $viewData['rendered']->other_episode . '</span>'; ?>
                                 <?php foreach ($viewData['tv']->genres as $genre) echo '<span class="badge badge-pill bg-dark me-2">' . $genre->name . '</span>'; ?>
                             </div>
 
+                            <!-- Synopsis -->
                             <div class="text-justify mb-4">
                                 <span style="font-size: small; color: #999999; "><?= $viewData['tv']->overview ?></span>
                             </div>
 
+                            <!-- Affichage des 4 acteurs principaux -->
                             <div class="row justify-content-center text-center mb-4">
                                 <?php
                                 foreach ($viewData['generator']['casts'] as $perso)
@@ -43,7 +47,8 @@
                                 ?>
                             </div>
 
-                            <div class="d-flex align-items-center justify-content-center p-1 px-2 mb-3 bg-light border-dark rounded">
+                            <!-- Bandeau d'informations (Format, Codec, Note, Année) -->
+                            <div class="d-flex align-items-center justify-content-center p-1 px-2 mb-3 bg-light border-dark rounded ">
                                 <?php if (isset($viewData['rendered']->quality)) echo '<span class="badge bg-info px-3">' . $viewData['rendered']->quality . '</span>'; ?>
                                 <span class="badge bg-success px-3 mx-1">x264</span>
                                 <img class="mx-auto d-none d-sm-inline-block"
@@ -52,12 +57,17 @@
                                 <span class="alert alert-dark d-none d-sm-inline-block h5 py-2 px-3 mb-0"><?= $viewData['generator']['release']->format("Y") ?></span>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <img src="https://image.tmdb.org/t/p/w500<?= $viewData['tv']->poster_path ?>" alt=""
-                                 class="img-fluid rounded w-10">
+                        <!-- Affichage et changement de l'image de couverture -->
+                        <div class="col-md-4 ">
+                            <img
+                                src="https://image.tmdb.org/t/p/w500<?= $viewData['tv']->poster_path ?>"
+                                alt=""
+                                class="img-fluid rounded w-10"
+                                data-rendered-cover=""
+                            >
                             <button type="button" class="btn btn-outline-dark w-100 mt-3" data-bs-toggle="modal"
                                     data-bs-target="#posters">
-                                Afficher tous les posters disponibles
+                                Changer l'image de couverture
                             </button>
                         </div>
                     </div>
@@ -70,6 +80,8 @@
 <!-- Formulaire de rendu -->
 <section class="my-3 container" id="container_fillform">
     <form action="" method="POST">
+        <input type="hidden" name="cover_url" value="https://image.tmdb.org/t/p/w500<?= $viewData['tv']->poster_path ?>">
+        
         <?php
         if ($viewData['isTv']) {
             ?>
@@ -220,9 +232,10 @@
                 <div id="container_audio">
                     <input type="hidden" name="audio" id="audio" value="1">
                     <div class="row" id="audio_1_form">
+                        <!-- Langue -->
                         <div class="col-md-3 col-12 mb-4">
                             <div class="form-group">
-                                <label for="audio_1_lang">Langue</label>
+                                <label for="audio_1_lang" class="text-white">Langue</label>
                                 <select class="form-select" id="audio_1_lang" name="audio_1_lang">
                                     <option value="Français (VFF)">Français (VFF)</option>
                                     <option value="Québécois (VFQ)">Québécois (VFQ)</option>
@@ -242,9 +255,10 @@
                                 </select>
                             </div>
                         </div>
+                        <!-- Codec -->
                         <div class="col-md-3 col-12 mb-4">
                             <div class="form-group">
-                                <label for="audio_1_codec">Codec audio</label>
+                                <label for="audio_1_codec" class="text-white">Codec audio</label>
                                 <select class="form-select" id="audio_1_codec" name="audio_1_codec">
                                     <option value="AC3">AC3</option>
                                     <option value="EAC3">EAC3</option>
@@ -270,9 +284,10 @@
                                 </select>
                             </div>
                         </div>
+                        <!-- Pistes -->
                         <div class="col-md-2 col-12 mb-4">
                             <div class="form-group">
-                                <label for="audio_1_piste">Pistes</label>
+                                <label for="audio_1_piste" class="text-white">Pistes</label>
                                 <select class="form-select" id="audio_1_piste" name="audio_1_piste">
                                     <option value="mono">1.0 (Mono)</option>
                                     <option value="2.0">2.0 (Stéréo)</option>
@@ -281,18 +296,19 @@
                                 </select>
                             </div>
                         </div>
+                        <!-- Débit -->
                         <div class="col-md-4 col-12 mb-4">
                             <div class="form-group">
-                                <label for="audio_1_debit">Débit audio</label>
+                                <label for="audio_1_debit" class="text-white" >Débit audio</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="audio_1_debit" name="audio_1_debit"
-                                           placeholder="2500"/>
+                                    <input type="number" class="form-control" id="audio_1_debit" name="audio_1_debit" placeholder="2500"/>
                                     <span class="input-group-text">kb/s</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Ajouter une piste audio -->
                 <div class="col-12 text-center">
                     <input type="button" class="btn btn-outline-light" value="Ajouter une piste audio"
                            id="audio_clone_btn">
@@ -442,16 +458,7 @@
     </form>
 </section>
 
-
-<!-- Zone de rendu visuel (à supprimer ?)
-<section class="my-3 container" id="container_generated_view">
-    <div class="card bg-light my-3">
-        <div class="collapse" id="generated_view">
-            <php include __DIR__ . './../snippets/render-tv.tpl.php' ?>
-        </div>
-    </div>
-</section>-->
-
+<!-- Modal pour changer l'image de couverture du rendu -->
 <div class="modal fade" id="posters" tabindex="-1" aria-labelledby="postersLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -462,6 +469,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <p class="text-muted">Cliquez sur une image de couverture pour changer le rendu de votre présentation.</p>
                 <div class="row" id="posters_container">
                     <?php
                     $i = 0;
@@ -469,9 +477,16 @@
                         ?>
 
                         <div class="col-3 p-2">
-                            <img src="https://image.tmdb.org/t/p/w500<?= $img->file_path ?>"
-                                 alt="<?= $img->iso_639_1 ?>" class="img-fluid"
-                                 style="object-fit: cover; height: 100%; width: 100%;">
+                            <img data-cover="" src="https://image.tmdb.org/t/p/w500<?= $img->file_path ?>"
+                                 alt="<?= $img->iso_639_1 ?>"
+                                 class="img-fluid rounded"
+                                 style="
+                                    object-fit: cover;
+                                    height: 100%;
+                                    width: 100%;
+                                    cursor: pointer;
+                                "
+                            >
                         </div>
                     <?php
                         $i++;
@@ -482,11 +497,6 @@
                     }
                     ?>
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
