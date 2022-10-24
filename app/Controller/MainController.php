@@ -90,7 +90,6 @@ class MainController extends CoreController {
                 $arguments['rendered'] = json_decode(json_encode($_POST), false);
             }
 
-            dump($arguments);
         }
 
         $this->show('pages/generate', $arguments);
