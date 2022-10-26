@@ -16,7 +16,7 @@
                         <font size="2" color="#999999"><?= $viewData['tv']->overview ?></font>
                     </div>
 
-                    <div class="row justify-content-center text-center mb-4">
+                    <div class="row <?= (sizeof($viewData['generator']['casts']) < 5) ? 'justify-content-start' : 'justify-content-center text-center' ?> mb-4">
                         <?php
                         foreach ($viewData['generator']['casts'] as $perso)
                             echo '<div class="col-6 col-sm-3 mb-3 px-2"><img src="https://image.tmdb.org/t/p/w154' . $perso['profile_path'] . '" alt="' . $perso['original_name'] . '" class="rounded img-fluid"></div>';
